@@ -72,3 +72,15 @@ func cal5 (num1 int, num2 int) (sum int, sub int) {
 	sub = num1 - num2
 	return
 }
+
+// anonymous function
+func anonymousFunction() {
+	f := func(num1 int, num2 int) int {
+		return num1 + num2
+	}
+	fmt.Println(f(1, 2));
+
+	func (num1 int) {
+		fmt.Println(num1);
+	}(6)
+}
