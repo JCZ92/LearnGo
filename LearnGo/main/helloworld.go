@@ -44,8 +44,14 @@ func main() {
 	fmt.Printf("type is %T", true)
 	var ptr *int = &age;
 	fmt.Println(ptr)
-	fmt.Println(*ptr)
+	fmt.Println(*ptr)	
 	*ptr = 20;
 	fmt.Println(age)
 	control()
+	fmt.Println(cal(1, 2))
+	fmt.Println(cal2(1, 2))
+	functionAsVar()
+	functionAsParameter(cal)
+	functionAsParameter2(cal)
+	cast()
 }
