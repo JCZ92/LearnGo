@@ -90,6 +90,8 @@ func main() {
 	// res := 	myIntt(10).double()
 	// fmt.Println(res)
 	// fmt.Println(maxx)
-	anonymousFunction()
-	closure()
+	// anonymousFunction()
+	// closure()
+	// tryDefer(1, 2)
+	tryString()
 }

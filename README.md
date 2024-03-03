@@ -15,3 +15,4 @@
 4. init()
 5. anonymous function
 6. closure
+7. defer
