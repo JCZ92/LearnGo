@@ -63,5 +63,6 @@ func main() {
 	fmt.Println(array3)
 	twoDimenArray()
 	slice()
+	mapType()
 
 }
