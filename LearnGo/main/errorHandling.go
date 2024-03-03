@@ -1,4 +1,4 @@
-t package main
+package main
 import "fmt"
 import "errors"
 
