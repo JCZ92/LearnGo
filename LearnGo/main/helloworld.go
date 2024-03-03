@@ -54,4 +54,5 @@ func main() {
 	functionAsParameter(cal)
 	functionAsParameter2(cal)
 	cast()
+	handle1()
 }
