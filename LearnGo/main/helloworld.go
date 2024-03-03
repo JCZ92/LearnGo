@@ -62,4 +62,6 @@ func main() {
 	compArray2(&array3)
 	fmt.Println(array3)
 	twoDimenArray()
+	slice()
+
 }
