@@ -93,5 +93,6 @@ func main() {
 	// anonymousFunction()
 	// closure()
 	// tryDefer(1, 2)
-	tryString()
+	// tryString()
+	tryTime()
 }

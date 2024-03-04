@@ -6,7 +6,7 @@
 4. function
 5. package
 6. error handling
-7. array 
+7. array
 
 ## Day 2 target: remaining language features 
 1. slice
@@ -16,3 +16,8 @@
 5. anonymous function
 6. closure
 7. defer
+8. string functions
+9. date functions
+10. encapsulation
+11. inheritance and composition
+12. interface & polymorphism & type assertion/ switch

@@ -3,7 +3,7 @@ import	"fmt"
 
 // go has no class
 type Person struct { // PascalCase means exported types
-	Name string // field declaration
+	Name string // field declaration, note that we cannot set default values
 	address string
 	Age  int
 	salary int // camelCase means private access to the package
