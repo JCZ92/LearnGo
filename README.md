@@ -21,3 +21,6 @@
 10. encapsulation
 11. inheritance and composition
 12. interface & polymorphism & type assertion/ switch
+
+## Day 3 target: io, process and thread, channel, TCP, reflection
+1. 
