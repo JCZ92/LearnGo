@@ -3,10 +3,20 @@ import (
 	"fmt"
 	"unsafe"
 )
+var maxx int; // global variables are executed before init() and main()
+
+func init() {
+	// setting up global variables, data structures, register packages
+	// no parameters and return values
+	// runs before main()
+	// you can have multi init(), will execute sequentially
+	fmt.Println("init before the main")
+	maxx = 100
+}
 
 func main() {
 	fmt.Println("Hello, World") // no need semicolon
-
+	fmt.Println("maxx is", maxx)
 	// var age int = 10 
 	// fmt.Println("age is" , age, "very good")
 	// var age2 int
@@ -55,11 +65,34 @@ func main() {
 	// functionAsParameter2(cal)
 	// cast()
 	// handle1()
-	arr()
-	var array3 = [...]int{1, 3, 5} // array
-	compArray(array3)
-	fmt.Println(array3)
-	compArray2(&array3)
-	fmt.Println(array3)
-	twoDimenArray()
+	// arr()
+	// var array3 = [...]int{1, 3, 5} // array
+	// compArray(array3)
+	// fmt.Println(array3)
+	// compArray2(&array3)
+	// fmt.Println(array3)
+	// twoDimenArray()
+	// slice()
+	// mapType()
+	// tryStruct()
+	// var may *Person = new(Person)
+	// var may *Person = &Person{}
+	// may.Name = "May"
+	// may.address = "456 Main St"
+	// may.Age = 20
+	// may.salary = 900	
+	// may.tryMethod()
+	// fmt.Println(*may)
+
+	// may.tryMethodByPointer()
+	// fmt.Println(*may)
+	
+	// res := 	myIntt(10).double()
+	// fmt.Println(res)
+	// fmt.Println(maxx)
+	// anonymousFunction()
+	// closure()
+	// tryDefer(1, 2)
+	// tryString()
+	tryTime()
 }

@@ -39,5 +39,17 @@ func control() {
 		// this is infinite loop
 	// }
 
+	OuterLoop:
+	for i := 1; i <= 3; i++ {
+		// Inner loop
+		for j := 1; j <= 3; j++ {
+			fmt.Printf("i: %d, j: %d\n", i, j)
+			if i == 2 && j == 2 {
+				// Break out of the outer loop when i equals 2 and j equals 2
+				break OuterLoop
+			}
+		}
+	}
+
 
 }	
