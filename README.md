@@ -22,5 +22,9 @@
 11. inheritance and composition
 12. interface & polymorphism & type assertion/ switch
 
-## Day 3 target: io, process and thread, channel, TCP, reflection
-1. 
+## Day 3 target: io, goroutine, channel, TCP, reflection
+1. IO
+2. process, thread
+3. goroutine
+4. Mutex/RWMutex lock
+5. channel
