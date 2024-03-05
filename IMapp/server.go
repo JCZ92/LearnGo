@@ -5,6 +5,7 @@ import (
 	"net"
 	"sync"
 	_"time"
+	"io"
 )
 
 type Server struct {
@@ -64,6 +65,30 @@ func (s *Server) Handler(conn net.Conn) {
 	s.mapLock.Unlock()
 	// broadcast the user online status
 	s.BroadCast(user, "is online now. Welcome!")
+
+	// broadcast the message from the user to all online users
+	go func() {
+		buf := make([]byte, 4096) // creat a buffer to receive messages from client
+		for {
+			n, err := conn.Read(buf)
+			if n == 0 {
+				s.BroadCast(user, "is offline now. Bye!")
+				return
+			}
+			if err != nil && err != io.EOF {
+				fmt.Println("conn.Read err:", err)
+				return
+			}
+			if (err == io.EOF) {
+				return
+			}
+			// get the message from the client
+			msg := string(buf[:n-1])
+			if msg != "" { // only broadcast the message if it is not empty
+				s.BroadCast(user, msg)
+			}
+		}
+	}()
 	// defer conn.Close()
 }
 
