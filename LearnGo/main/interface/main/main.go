@@ -15,10 +15,10 @@ func welcome(s interface1.SaySth) {
 		gm.SayNo()
 	}
 
-	// type switch
+	// type switch is also useful
 	switch s.(type) {
 	case interface1.GoodMan:
-		fmt.Println("GoodMan")
+		fmt.Println("GoodMan!")
 	case interface1.BadMan:
 		fmt.Println("BadMan")
 	default:
@@ -30,25 +30,24 @@ func welcome(s interface1.SaySth) {
 func main() {	
 	gm := interface1.GoodMan{Num: 8}
 	// gm2 := &interface1.GoodMan{Num: 8}
-	bm := interface1.BadMan{}
+	// bm := interface1.BadMan{}
 	fmt.Println(gm.Num)
 	welcome(gm)
 	// welcome(gm2)
-	welcome(bm) // bm does not implement interface SaySth (missing SayNo method), a loose contract
+	// welcome(bm) // bm does not implement interface SaySth (missing SayNo method), a loose contract
 
 	// use interface to initialize a variable
-	var s interface1.SaySth = interface1.GoodMan{Num: 8}
-	welcome(s)
+	// var s interface1.SaySth = interface1.GoodMan{Num: 8}
+	// welcome(s)
 
-	var emptyInterface interface{} = s; // an empty interface can take any type
-	fmt.Println(emptyInterface)
-
+	// var emptyInterface interface{} = s; // an empty interface can take any type
+	// fmt.Println(emptyInterface)
 
 	//polymorphism array
 
-	var arrPM [3]interface1.SaySth
-	arrPM[0] = interface1.GoodMan{Num: 8}
-	arrPM[1] = interface1.GoodMan{Num: 0}
+	// var arrPM [3]interface1.SaySth
+	// arrPM[0] = interface1.GoodMan{Num: 8}
+	// arrPM[1] = interface1.GoodMan{Num: 0}
 	
 
 
