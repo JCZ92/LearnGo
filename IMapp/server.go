@@ -96,7 +96,7 @@ func (s *Server) Handler(conn net.Conn) {
 			// if timeout, the user is forced to log off
 		case <-isActive:
 			// do nothing, user is active
-		case <-time.After(time.Second * 5):
+		case <-time.After(time.Second * 300):
 			user.SendMessage("You are being logged off due to inactivity in one second")
 			time.Sleep(time.Second)
 			//close the connection
@@ -104,7 +104,6 @@ func (s *Server) Handler(conn net.Conn) {
 			return
 		}
 	}
-
 }
 
 // start a server

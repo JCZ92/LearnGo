@@ -78,8 +78,8 @@ func (u *User) HandleMsg(msg string) {
 			u.SendMessage(onlineUser) // send the online user to the client
 		}
 		u.Server.mapLock.Unlock()
-	} else if strings.HasPrefix(msg, "rename|") {
-		newName := strings.Split(msg, "|")[1]
+	} else if strings.HasPrefix(msg, "rename:") {
+		newName := strings.Split(msg, ":")[1]
 		if newName == "" {
 			u.SendMessage("rename failed, you are giving an empty name.")
 		} else {
@@ -96,6 +96,22 @@ func (u *User) HandleMsg(msg string) {
 				u.SendMessage("rename success, the new name is " + newName)
 			}
 		}
+	} else if strings.HasPrefix(msg, "to:") {
+		//message format: to:user:message
+		toUsername := strings.Split(msg, ":")[1]
+		toUsername = strings.TrimSpace(toUsername)
+		if toUsername == "" {
+			u.SendMessage("message failed, correct input format is `to:user:your message here`")
+		}
+		toUser, ok := u.Server.OnlineMap[toUsername]
+		if !ok {
+			u.SendMessage("message failed, the user " + toUsername + " is not online.")
+		}
+		message := strings.Split(msg, ":")[2]
+		if message == "" {
+			u.SendMessage("message failed, your message is empty")
+		}
+		toUser.SendMessage("[" + u.Name + "] said to you: " + message)
 	} else {
 		u.BroadcastMsg(msg) // broadcast the message to all online users of the server.
 	}
