@@ -33,7 +33,7 @@ func NewServer(ip string, port int) *Server {
 // broadcast message[user is now online] to all online users
 // push the message to server's channel
 func (s *Server) BroadCast(user *User, msg string) {
-	outMessage := "User [" + user.Addr + "]" + user.Name + ":" + msg
+	outMessage := "[" + user.Addr + "]" + user.Name + msg
 	s.Message <- outMessage
 }
 
@@ -80,7 +80,7 @@ func (s *Server) Handler(conn net.Conn) {
 			// get the message from the client
 			msg := string(buf[:n-1])
 			if msg != "" { // only broadcast the message if it is not empty
-				user.HandleMsg(msg)
+				go user.HandleMsg(msg)
 			}
 		}
 	}()
