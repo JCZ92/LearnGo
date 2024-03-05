@@ -57,14 +57,9 @@ func (s *Server) PushMessageToOnlineUsers() {
 // offer service to the connected client
 func (s *Server) Handler(conn net.Conn) {
 	fmt.Println("Client connected successfully")
-	user := NewUser(conn)
-	
-	// add user to the online user map
-	s.mapLock.Lock()
-	s.OnlineMap[user.Name] = user
-	s.mapLock.Unlock()
-	// broadcast the user online status
-	s.BroadCast(user, "is online now. Welcome!")
+	user := NewUser(conn, s)
+	// refactor online step as user method 
+	user.Online()
 
 	// broadcast the message from the user to all online users
 	go func() {
@@ -72,7 +67,7 @@ func (s *Server) Handler(conn net.Conn) {
 		for {
 			n, err := conn.Read(buf)
 			if n == 0 {
-				s.BroadCast(user, "is offline now. Bye!")
+				user.Offline()
 				return
 			}
 			if err != nil && err != io.EOF {
@@ -85,7 +80,7 @@ func (s *Server) Handler(conn net.Conn) {
 			// get the message from the client
 			msg := string(buf[:n-1])
 			if msg != "" { // only broadcast the message if it is not empty
-				s.BroadCast(user, msg)
+				user.BroadcastMsg(msg)
 			}
 		}
 	}()
