@@ -31,7 +31,7 @@
 6. TCP
 
 ## Day 4 target: Instant Message app
-- Server side setup
+Server side setup, including
 1. broadcast when user is online
 2. broadcast user message
 3. rename function
