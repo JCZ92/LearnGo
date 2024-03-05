@@ -32,3 +32,9 @@
 
 ## Day 4 target: Instant Message app
 - Server side setup
+1. broadcast when user is online
+2. broadcast user message
+3. rename function
+4. search user function
+5. forced log-off when timeout
+6. private chat
