@@ -80,11 +80,10 @@ func (s *Server) Handler(conn net.Conn) {
 			// get the message from the client
 			msg := string(buf[:n-1])
 			if msg != "" { // only broadcast the message if it is not empty
-				user.BroadcastMsg(msg)
+				user.HandleMsg(msg)
 			}
 		}
 	}()
-	// defer conn.Close()
 }
 
 // start a server

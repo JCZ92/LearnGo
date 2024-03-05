@@ -58,3 +58,18 @@ func (u *User) Offline() {
 func (u *User) BroadcastMsg(msg string) {
 	u.Server.BroadCast(u, msg)
 }
+
+
+func (u *User) HandleMsg(msg string) {
+	if msg == "search" { // search online users of the server.
+		u.Server.mapLock.Lock()
+		for _, user := range u.Server.OnlineMap {
+			onlineUser := "User [" + user.Addr + "]" + user.Name + ": is online"
+			u.UserCh <- onlineUser // send the online user to the client
+		}
+		u.Server.mapLock.Unlock()
+	} else {
+		u.BroadcastMsg(msg) // broadcast the message to all online users of the server.
+	}
+
+}
