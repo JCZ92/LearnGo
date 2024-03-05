@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net"
 	"sync"
-	_"time"
+	"time"
 	"io"
 )
 
@@ -48,7 +48,7 @@ func (s *Server) PushMessageToOnlineUsers() {
 		// send the message to all online users
 		s.mapLock.Lock()
 		for _, cli := range s.OnlineMap {
-			cli.UserCh <- msg
+			cli.SendMessage(msg)
 		}
 		s.mapLock.Unlock()
 	}
@@ -60,6 +60,8 @@ func (s *Server) Handler(conn net.Conn) {
 	user := NewUser(conn, s)
 	// refactor online step as user method 
 	user.Online()
+	// create a channel to determine if user is active
+	isActive := make(chan bool)
 
 	// broadcast the message from the user to all online users
 	go func() {
@@ -82,8 +84,27 @@ func (s *Server) Handler(conn net.Conn) {
 			if msg != "" { // only broadcast the message if it is not empty
 				go user.HandleMsg(msg)
 			}
+			isActive <- true // user is active
 		}
 	}()
+
+	// Timeout enforced logoff
+	for {
+		select { 
+			// execute the first case that is not empty
+			// in this case, every select will wait at most 5 seconds, if in this 5 seconds, an isActive is received, will reset the timer
+			// if timeout, the user is forced to log off
+		case <-isActive:
+			// do nothing, user is active
+		case <-time.After(time.Second * 5):
+			user.SendMessage("You are being logged off due to inactivity in one second")
+			time.Sleep(time.Second)
+			//close the connection
+			conn.Close()
+			return
+		}
+	}
+
 }
 
 // start a server
@@ -112,7 +133,7 @@ func (s *Server) Start() {
 			continue
 		}
 
-		// respond to the client
+		// handle to the client requests
 		go s.Handler(conn)
 
 	}

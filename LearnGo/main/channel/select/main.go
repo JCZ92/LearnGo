@@ -18,7 +18,7 @@ func main() {
 	}()
 	
 
-	// select
+	// select, execute the first case that is not empty, otherwise, execute the second case
 	select {
 	case num := <- intchan:
 		fmt.Println("num = ", num)
