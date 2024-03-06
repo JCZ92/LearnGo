@@ -30,11 +30,15 @@
 5. channel
 6. TCP
 
-## Day 4 target: Instant Message app
-Server side setup, including
+## Day 4 target: Instant Message app: Server side setup, including
 1. broadcast when user is online
 2. broadcast user message
 3. rename function
 4. search user function
 5. forced log-off when timeout
 6. private chat
+
+## Day 5 target: Instant Message app: Client side setup, including
+1. setup client struct
+2. add command line flags
+3. add client menu

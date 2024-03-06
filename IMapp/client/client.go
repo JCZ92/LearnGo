@@ -3,7 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io"
 	"net"
+	"os"
+	"strconv"
+	"strings"
+	"bufio"
 )
 
 type Client struct {
@@ -29,6 +34,7 @@ func NewClient(serverIp string, serverPort int) *Client {
 	client.Mode = 9999
 	return client;
 }
+
 // global var
 var (
 	serverIp string
@@ -36,8 +42,9 @@ var (
 	modeMap map[int]string
 )
 
+// menu utility
 func (client *Client) menu() bool {
-	var mode int
+	var mode string
 
 	fmt.Println("Please select mode:")
 	for i := 0; i < 4; i++ {
@@ -45,9 +52,14 @@ func (client *Client) menu() bool {
 	}
 
 	fmt.Scanln(&mode)
-	if mode >= 0 && mode <= 3 {
-		client.Mode = mode
-		fmt.Println("Now you are in mode:", modeMap[mode])
+	modeInt, err := strconv.Atoi(mode)
+	if err != nil {
+		fmt.Println("invalid input")
+		return false
+	}
+	if modeInt >= 0 && modeInt <= 3 {
+		client.Mode = modeInt
+		fmt.Println("Now you are in mode:", modeMap[modeInt])
 		return true
 	} else {
 		fmt.Println("invalid input")
@@ -55,16 +67,125 @@ func (client *Client) menu() bool {
 	}
 }
 
+// deal with response from the server
+func (client *Client) DealResponse() {
+	// [continuously]listern the response from the server and print to console
+	io.Copy(os.Stdout, client.Conn)
+}
+
+// update username
+func (client *Client) UpdateUsername() bool {
+	var newName string
+	if client.Name != "" {
+		fmt.Println("Your current username is", client.Name)
+	}
+	fmt.Println("Please input new username:")
+	fmt.Scanln(&newName)
+	sendMsg := "rename:" + newName + "\n"
+	_, err := client.Conn.Write([]byte(sendMsg))
+	if err != nil {
+		fmt.Println("error:", err)
+		return false
+	}
+	client.Name = newName
+	return true
+}
+
+// public message
+func (client *Client) PublicMessage() bool {
+	var msg string
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Println("Please input message: type exit [to exit the chat]")
+	msg, err := reader.ReadString('\n')
+	if err != nil {
+		fmt.Println("error:", err)
+		return false
+	}	
+	for msg != "exit" {
+		if msg != "" {
+			sendMsg := msg + "\n"
+			_, err := client.Conn.Write([]byte(sendMsg))
+			if err != nil {
+				fmt.Println("error:", err)
+				return false
+			}
+		}
+		msg = ""
+		fmt.Println("Please input message: type exit [to exit the chat]")
+		msg, err = reader.ReadString('\n')
+		if err != nil {
+			fmt.Println("error:", err)
+			return false
+		}	
+		msg = strings.TrimSpace(msg)
+	}
+	return true
+}
+
+// query online users
+func (client *Client) QueryOnlineUsers() bool {
+	sendMsg := "search\n"
+	_, err := client.Conn.Write([]byte(sendMsg))
+	if err != nil {
+		fmt.Println("error:", err)
+		return false
+	}
+	return true
+}
+
+// private message
+func (client *Client) PrivateMessage() bool {
+	var (msg string
+		toName string
+	)
+	client.QueryOnlineUsers() // query online users
+	fmt.Println("Please input the username to send message:")
+	fmt.Scanln(&toName)
+	toName = strings.Trim(toName, " ")
+	if toName == "" {
+		fmt.Println("invalid input")
+		return false
+	}
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Println("Please input message: type exit [to exit the chat]")
+	msg, err := reader.ReadString('\n')
+	if err != nil {
+		fmt.Println("error:", err)
+		return false
+	}
+
+	for msg != "exit" {
+		if msg != "" {
+			sendMsg := "to:" + toName + ":" + msg + "\n"
+			_, err := client.Conn.Write([]byte(sendMsg))
+			if err != nil {
+				fmt.Println("error:", err)
+				return false
+			}
+		}
+		msg = ""
+		fmt.Println("Please input message: type exit [to exit the chat]")
+		msg, err = reader.ReadString('\n')
+		if err != nil {
+			fmt.Println("error:", err)
+			return false
+		}
+		msg = strings.TrimSpace(msg)
+	}
+	return true
+}
+
+// main goroutine
 func (client *Client) Run() {
 	for client.Mode != 0 {
 		for client.menu() { // like while
 			switch client.Mode {
 			case 1:
-				fmt.Println("broadcast message to all")
+				client.PublicMessage()
 			case 2:
-				fmt.Println("private message")
+				client.PrivateMessage()
 			case 3:
-				fmt.Println("change username")
+				client.UpdateUsername()
 			case 0:
 				return
 			}
@@ -90,5 +211,7 @@ func main() {
 		return
 	}
 	fmt.Println("client is created")
+	go client.DealResponse() // start a goroutine to deal response from the server.
+	
 	client.Run()
 }
