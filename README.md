@@ -1,5 +1,5 @@
 # LearnGo
-## Day 1 target: get familiar with basic syntax and data types
+## Day 1: get familiar with basic syntax and data types
 1. variable and types
 2. operators
 3. control
@@ -8,7 +8,7 @@
 6. error handling
 7. array
 
-## Day 2 target: remaining language features 
+## Day 2: remaining language features 
 1. slice
 2. map
 3. struct and method
@@ -22,7 +22,7 @@
 11. inheritance and composition
 12. interface & polymorphism & type assertion/switch
 
-## Day 3 target: io, goroutine, channel, TCP
+## Day 3: io, goroutine, channel, TCP
 1. IO
 2. process, thread
 3. goroutine
@@ -30,7 +30,7 @@
 5. channel
 6. TCP
 
-## Day 4 target: Instant Message app: Server side setup, including
+## Day 4: Instant Message app: Server side setup, including
 1. broadcast when user is online
 2. broadcast user message
 3. rename function
@@ -38,7 +38,7 @@
 5. forced log-off when timeout
 6. private chat
 
-## Day 5 target: Instant Message app: Client side setup, including
+## Day 5: Instant Message app: Client side setup, including
 1. setup client struct
 2. add command line flags
 3. add client menu
