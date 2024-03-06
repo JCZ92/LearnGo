@@ -101,6 +101,8 @@ func (client *Client) PublicMessage() bool {
 		fmt.Println("error:", err)
 		return false
 	}	
+	msg = strings.TrimRight(msg, "\n")
+
 	for msg != "exit" {
 		if msg != "" {
 			sendMsg := msg + "\n"
@@ -117,7 +119,7 @@ func (client *Client) PublicMessage() bool {
 			fmt.Println("error:", err)
 			return false
 		}	
-		msg = strings.TrimSpace(msg)
+		msg = strings.TrimRight(msg, "\n")	
 	}
 	return true
 }
@@ -153,6 +155,7 @@ func (client *Client) PrivateMessage() bool {
 		fmt.Println("error:", err)
 		return false
 	}
+	msg = strings.TrimRight(msg, "\n")	
 
 	for msg != "exit" {
 		if msg != "" {
@@ -170,7 +173,7 @@ func (client *Client) PrivateMessage() bool {
 			fmt.Println("error:", err)
 			return false
 		}
-		msg = strings.TrimSpace(msg)
+		msg = strings.TrimRight(msg, "\n")
 	}
 	return true
 }
