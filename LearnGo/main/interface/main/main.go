@@ -28,6 +28,8 @@ func welcome(s interface1.SaySth) {
 
 
 func main() {	
+
+
 	gm := interface1.GoodMan{Num: 8}
 	// gm2 := &interface1.GoodMan{Num: 8}
 	// bm := interface1.BadMan{}
@@ -42,6 +44,12 @@ func main() {
 
 	// var emptyInterface interface{} = s; // an empty interface can take any type
 	// fmt.Println(emptyInterface)
+	var val interface{} // really interesting
+	val = 42
+	val = "hello"
+	val = true
+	val = []int{1,2,3}
+	fmt.Println(val)
 
 	//polymorphism array
 
