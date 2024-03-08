@@ -42,3 +42,5 @@
 1. setup client struct
 2. add command line flags
 3. add client menu
+
+## Day 6: learning Gin framework as backend
