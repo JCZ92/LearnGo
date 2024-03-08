@@ -44,3 +44,4 @@
 3. add client menu
 
 ## Day 6: learning Gin framework as backend
+1. setup IM Pro
